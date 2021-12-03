@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\SeasonRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Program;
+use App\Repository\SeasonRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=SeasonRepository::class)
@@ -28,16 +30,21 @@ class Season
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="ne me laisse pas tout vide")
+     * @Assert\Type(type="integer", message="The value {{ value }} is not a valid {{ type }}.")
      */
     private $number;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="ne me laisse pas tout vide")
+     * @Assert\Type(type="integer", message="The value {{ value }} is not a valid {{ type }}.")
      */
     private $year;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\NotBlank(message="ne me laisse pas tout vide")
      */
     private $description;
 
