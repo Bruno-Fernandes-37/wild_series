@@ -9,10 +9,15 @@
             <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
             <p>{{ program.synopsis }}</p>
             <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>
+                {% for actor in program.actors %}
+                    <div>
+                        <h4>{{ loop.index }} / {{ actor.name }}</h4>
+                        <a href="{{ path("actor_show", { id: actor.id }) }}">Voir la fiche</a>
+                    </div>
+                {% endfor %}
         </div>
-    {% else %}
-        Aucune série trouvée.
     {% endfor %}
+    <p><a href="{{ path('actor_index') }}"> Liste des acteurs</a></p> 
 
     <a href="{{ path('app_index') }}">
         Retour à l'accueil

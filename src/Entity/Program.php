@@ -35,7 +35,6 @@ class Program
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="ne me laisse pas tout vide")
-     * @Assert\Regex(pattern="/(?i\W|^)plus\s{0,3}belle\s{0,3}la\s{0,3}vie(\W|$)/", match=false, message="On parle de vraies séries ici")
      */
     private $synopsis;
 
@@ -43,7 +42,7 @@ class Program
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="ne me laisse pas tout vide")
      * @Assert\Length(max="255", maxMessage="La catégorie saisie {{ value }} est trop longue, elle ne devrait pas dépasser {{ limit }} caractères")
-     * @Assert\Regex(pattern="/(?i\W|^)plus\s{0,3}belle\s{0,3}la\s{0,3}vie(\W|$)/", match=false, message="On parle de vraies séries ici")
+
      */
     private $poster;
 
@@ -73,9 +72,15 @@ class Program
      */
     private $seasons;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Actor::class, mappedBy="programs")
+     */
+    private $actors;
+
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
+        $this->actors = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -180,6 +185,33 @@ class Program
             if ($season->getProgram() === $this) {
                 $season->setProgram(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Actor[]
+     */
+    public function getActors(): Collection
+    {
+        return $this->actors;
+    }
+
+    public function addActor(Actor $actor): self
+    {
+        if (!$this->actors->contains($actor)) {
+            $this->actors[] = $actor;
+            $actor->addProgram($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActor(Actor $actor): self
+    {
+        if ($this->actors->removeElement($actor)) {
+            $actor->removeProgram($this);
         }
 
         return $this;

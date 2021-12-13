@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ActorController!{% endblock %}
+
+{% block body %}
+    <div class="example-wrapper">
+        <h1>Liste des acteurs</h1>
+        <ul>
+            {% for actor in actors %}
+                <div>
+                    <h2>{{ loop.index }} / {{ actor.name }}</h2>
+                    <a href="{{ path("actor_show", { id: actor.id }) }}">Voir la fiche</a>
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
