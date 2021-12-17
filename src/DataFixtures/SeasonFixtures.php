@@ -32,16 +32,18 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
             $season->setNumber($seasons['number']);
             $season->setDescription($seasons['description']);
             $season->setYear($seasons['year']);
-            $season->addEpisode($this->getReference('episode_0'));
+            $season->setProgram($this->getReference('program_0'));
             $manager->persist($season);
+            $this->addReference('season_' . $key, $season);
         }
         
         $manager->flush();
     }
+
     public function getDependencies()
     {
         return [
-          EpisodeFixtures::class,
+          ProgramFixtures::class,
         ];
     }
 }

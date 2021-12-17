@@ -45,7 +45,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             for ($i=0; $i < count(ActorFixtures::ACTORS); $i++) {
                 $program->addActor($this->getReference('actor_' . $i));
             }
-            $program->addSeason($this->getReference('season_1'));
+
             $manager->persist($program);
             $this->addReference('program_' . $key, $program);
         }
@@ -57,7 +57,6 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         return [
           ActorFixtures::class,
           CategoryFixtures::class,
-          SeasonFixtures::class,
         ];
     }
 
