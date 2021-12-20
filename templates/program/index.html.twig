@@ -8,7 +8,7 @@
         <div>
             <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
             <p>{{ program.synopsis }}</p>
-            <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>
+            <a href="{{ path("program_show", { slug: program.title }) }}">Voir la fiche</a>
                 {% for actor in program.actors %}
                     <div>
                         <h4>{{ loop.index }} / {{ actor.name }}</h4>
