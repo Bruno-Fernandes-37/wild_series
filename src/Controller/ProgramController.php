@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Category;
 use App\Entity\Episode;
 use App\Service\Slugify;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+
 
 /**
 * @Route("/program", name="program_")
@@ -41,7 +44,7 @@ class ProgramController extends AbstractController
      *
      * @Route("/new", name="new")
      */
-    public function new(Request $request, Slugify $slugify) : Response
+    public function new(Request $request, Slugify $slugify, MailerInterface $mailer) : Response
     {
         // Create a new Category Object
         $program = new Program();
@@ -60,6 +63,12 @@ class ProgramController extends AbstractController
             $entityManager->persist($program);
             // Flush the persisted object
             $entityManager->flush();
+            $email = (new Email())
+                ->from('admin@gmail.com')
+                ->to('your_email@example.com')
+                ->subject('Une nouvelle série vient d\'être publiée !')
+                ->html($this->renderView('email/newProgramEmail.html.twig', ['program' => $program]));
+            $mailer->send($email);
             // Finally redirect to categories list
             return $this->redirectToRoute('program_index');
         }
